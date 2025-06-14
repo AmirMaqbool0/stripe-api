@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-
+const serverless = require('@netlify/express');
 const app = express();
 
 // Enhanced CORS
@@ -41,7 +41,7 @@ app.post('/api/create-checkout', async (req, res) => {
 
 // Vercel-specific export
 module.exports = app;
-
+module.exports.handler = serverless(app);
 // Local development
 if (process.env.VERCEL !== '1') {
   const PORT = process.env.PORT || 7000;
